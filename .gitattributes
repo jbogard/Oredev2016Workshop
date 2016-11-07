@@ -1,0 +1,18 @@
+*.txt text
+*.md text
+
+*.cmd text
+*.ps1 text
+
+*.sln text eol=crlf merge=union
+*.csproj text merge=union
+*.cs text diff=csharp
+*.js text
+*.css text
+*.sql text
+
+*.Config text
+*.config text
+
+*.exe binary
+*.dll binary
