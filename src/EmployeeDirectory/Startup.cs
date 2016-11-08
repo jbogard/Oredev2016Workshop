@@ -11,6 +11,8 @@ using Microsoft.Extensions.Logging;
 namespace EmployeeDirectory
 {
     using Infrastructure;
+    using Microsoft.AspNetCore.Authentication.Cookies;
+    using Microsoft.AspNetCore.Http;
 
     public class Startup
     {
@@ -29,6 +31,8 @@ namespace EmployeeDirectory
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(opt => opt.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme);
+
             // Add framework services.
             services.AddMvc();
 
@@ -51,6 +55,14 @@ namespace EmployeeDirectory
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                LoginPath = new PathString("/account/login"),
+                AccessDeniedPath = new PathString("/account/forbidden")
+            });
 
             app.UseStaticFiles();
 

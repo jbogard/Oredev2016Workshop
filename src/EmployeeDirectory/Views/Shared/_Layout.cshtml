@@ -33,6 +33,19 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+@if (User.Identity.IsAuthenticated)
+{
+            <li>
+                <form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" class="navbar-right">
+                    Hello @User.Identity.Name!
+                    <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
+                </form>
+            </li>
+}
+else
+{
+        <li><a asp-area="" asp-controller="Account" asp-action="Login">Log in</a></li>
+}
                 </ul>
             </div>
         </div>
