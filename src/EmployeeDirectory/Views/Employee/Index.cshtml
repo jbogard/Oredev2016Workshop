@@ -1,0 +1,30 @@
+﻿@model List<EmployeeDirectory.ViewModels.EmployeeIndexModel>
+
+@{
+    ViewBag.Title = "Employees";
+}
+<h2>Employees</h2>
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Office</th>
+        <th>Title</th>
+        <th></th>
+    </tr>
+    @foreach (var employee in Model)
+    {
+        <tr>
+            <td>@employee.FullName</td>
+            <td>@employee.Office</td>
+            <td>@employee.Title</td>
+            <td>
+                <a asp-controller="Employee"
+                   asp-action="Edit"
+                   asp-route-id="@employee.Id"
+                   asp-permission="@Permission.EditEmployees">
+                    Edit
+                </a>
+            </td>
+        </tr>
+    }
+</table>

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EmployeeDirectory
 {
+    using AutoMapper;
     using Infrastructure;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Http;
@@ -34,10 +35,16 @@ namespace EmployeeDirectory
             services.AddAuthentication(opt => opt.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme);
 
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc(opt =>
+            {
+                opt.Filters.Add(typeof(DbContextTransactionFilter));
+            });
+
+            services.AddTransient<IPermissionAuthorizer, DbContextPermissionAuthorizer>();
 
             services.AddScoped(_ => new DirectoryContext(Configuration["Data:DefaultConnection:ConnectionString"]));
 
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +57,8 @@ namespace EmployeeDirectory
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
+
+                Mapper.AssertConfigurationIsValid();
             }
             else
             {

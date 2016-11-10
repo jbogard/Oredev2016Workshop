@@ -1,0 +1,58 @@
+﻿@model EmployeeDirectory.ViewModels.EmployeeEditModel
+
+@{
+    ViewBag.Title = "Edit Employee";
+}
+<h2>Edit Employee</h2>
+
+<form asp-controller="Employee" 
+      asp-action="Edit" 
+      asp-route-id="@Model.Id"
+      class="form-horizontal" 
+      method="post">
+    <input asp-for="Id" type="hidden"/>
+    <div class="form-group">
+        <label asp-for="FirstName" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="FirstName" class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="LastName" class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Title" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="Title" class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="PhoneNumber" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="PhoneNumber" class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="Email" class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Office" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <select asp-for="Office" 
+                    asp-items="Html.GetEnumSelectList<Office>()"
+                    class="form-control">
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn-default">Submit</button>
+        </div>
+    </div>
+</form>

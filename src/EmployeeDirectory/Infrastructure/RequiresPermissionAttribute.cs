@@ -9,7 +9,8 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.DependencyInjection;
 
-    public class RequirePermissionAttribute : Attribute, IAsyncAuthorizationFilter
+    public class RequirePermissionAttribute 
+        : Attribute, IAsyncAuthorizationFilter
     {
         public Permission Permission { get; }
 
@@ -19,11 +20,14 @@
         }
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            var dbContext = context.HttpContext.RequestServices.GetService<DirectoryContext>();
-            var hasPermission = await dbContext.EmployeeRoles
-                .Where(er => er.Employee.Username == context.HttpContext.User.Identity.Name)
-                .Where(er => er.Role.RolePermissions.Any(rp => rp.Permission == Permission))
-                .AnyAsync();
+            var authorizer = context
+                .HttpContext
+                .RequestServices
+                .GetService<IPermissionAuthorizer>();
+
+            var username = context.HttpContext.User.Identity.Name;
+
+            var hasPermission = await authorizer.HasPermission(username, Permission);
 
             if (!hasPermission)
             {
